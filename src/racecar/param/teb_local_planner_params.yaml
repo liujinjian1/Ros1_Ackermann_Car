@@ -1,0 +1,118 @@
+TebLocalPlannerROS:
+
+    odom_topic: odom
+
+    # Trajectory
+
+    teb_autosize: True
+    dt_ref: 0.21
+    dt_hysteresis: 0.05
+    max_samples: 500
+    global_plan_overwrite_orientation: True
+    allow_init_with_backwards_motion: False
+    max_global_plan_lookahead_dist: 4.0
+    global_plan_viapoint_sep: -1
+    global_plan_prune_distance: 1
+    exact_arc_length: True   #False
+    feasibility_check_no_poses: 10 #2
+    publish_feedback: False
+
+    # Robot
+         
+    max_vel_x: 3
+    max_vel_x_backwards: 1.2
+    max_vel_y: 0.288
+    max_vel_theta: 85 # the angular velocity is also bounded by min_turning_radius in case of a carlike robot (r = v / omega) 25
+    acc_lim_x: 0.188    #0.1
+    acc_lim_theta: 60
+
+    # ********************** Carlike robot parameters ********************
+    min_turning_radius: 0.01 # Min turning rad ius of the carlike robot (compute value using a model or adjust with rqt_reconfigure manually)
+    wheelbase: 0.335                 # Wheelbase of our robot
+    cmd_angle_instead_rotvel: False # stage simulator takes the angle instead of the rotvel as input (twist message)
+    # ********************************************************************
+
+    footprint_model: polygon # types: "point", "circular", "two_circles", "line", "polygon"
+    type: "polygon"  #单车模型
+    vertices: [[-0.175, -0.25], [-0.175, 0.25], [0.175, 0.25], [0.175, -0.25]]
+    
+
+    # GoalTolerance
+
+    xy_goal_tolerance: 0.01
+    yaw_goal_tolerance: 0.03 #2  0.2
+    free_goal_vel: True
+    complete_global_plan: True
+
+    # Obstacles
+
+    #min_obstacle_dist: 0.3  #0.3 This value must also include our robot's expansion, since footprint_model is set to "line".
+    inflation_dist: 0.62
+    include_costmap_obstacles: True
+    costmap_obstacles_behind_robot_dist: 0.1
+    obstacle_poses_affected: 20
+
+    dynamic_obstacle_inflation_dist: 0.1  
+    include_dynamic_obstacles: True 
+
+    costmap_converter_plugin: ""
+    costmap_converter_spin_thread: True
+    costmap_converter_rate: 8
+
+    # # Optimization
+
+    no_inner_iterations: -1
+    no_outer_iterations: -1
+    optimization_activate: True
+    optimization_verbose: False
+    penalty_epsilon: 0.01
+    obstacle_cost_exponent: -1
+    weight_max_vel_x: 1 #10
+    weight_max_vel_theta: 10 #10
+    weight_acc_lim_x: 1
+    weight_acc_lim_theta: 10 #10
+    weight_kinematics_nh: 1000
+    weight_kinematics_forward_drive: 1000 #55
+    weight_kinematics_turning_radius: 1000 #20
+    weight_optimaltime: 1000 # must be > 0  1000
+    weight_shortest_path: 1
+    weight_obstacle: 50
+    weight_inflation: 50
+    weight_dynamic_obstacle: 10 # not in use yet 10
+    weight_dynamic_obstacle_inflation: 5  #10  5
+    weight_viapoint: 1
+    weight_adapt_factor: 20
+
+
+    # Homotopy Class Planner
+
+    enable_homotopy_class_planning: True
+    enable_multithreading: False
+    max_number_classes: 5
+    selection_cost_hysteresis: 1.0
+    selection_prefer_initial_plan: 0.95
+    selection_obst_cost_scale: 1.0
+    selection_alternative_time_cost: False
+
+    roadmap_graph_no_samples: 15
+    roadmap_graph_area_width: 5
+    roadmap_graph_area_length_scale: 1.0
+    h_signature_prescaler: 0.5
+    h_signature_threshold: 0.1
+    obstacle_heading_threshold: 0.45
+    switching_blocking_period: 0.0
+    viapoints_all_candidates: True
+    delete_detours_backwards: True
+    max_ratio_detours_duration_best_duration: 3.0
+    visualize_hc_graph: True
+    visualize_with_time_as_z_axis_scale: False
+
+    # # Recovery
+
+    shrink_horizon_backup: True
+    shrink_horizon_min_duration: 3
+    oscillation_recovery: False
+    oscillation_v_eps: 10
+    oscillation_omega_eps: 10
+    oscillation_recovery_min_duration: 20
+    oscillation_filter_duration: 10

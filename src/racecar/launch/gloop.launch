@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<launch>
+    <node pkg="multi_goal" type="goal_loop-newcar.py" name="multi_goals"></node>
+</launch>

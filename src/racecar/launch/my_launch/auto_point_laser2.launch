@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<launch>
+    
+    <!-- 开启小车传感器 -->
+    <!-- <include file="$(find racecar)/launch/Run_car.launch" />-->
+    <!-- 开启gmapping建图节点 -->
+   <!-- <include file="$(find racecar)/launch/Run_gmapping.launch" />-->
+       <node pkg="robot_localization" type="ekf_localization_node" name="ekf_se" clear_params="true">
+        <rosparam command="load" file="$(find racecar)/param/ekf_params.yaml" />
+    </node>
+        <include file="$(find encoder_driver)/launch/wheel_odom.launch"/>
+    <!-- 开启小车控制 -->
+           <node pkg="racecar" type="my_car_control2" name="my_car_control2" output="screen"/> <!-- 开启小车控制，计算相对位置控制小车启停，和小车减速 -->
+    <node pkg="laser_go" type="laser_go2" name="laser_go2" output="screen"/><!-- 计算出偏差调节角度和速度（主要调节前进角度）-->
+ 
+    <!-- 开启自动标点 -->
+    <!-- <node pkg="racecar" type="between" name="between" output="screen"/>-->
+</launch>

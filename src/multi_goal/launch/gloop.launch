@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<launch>
+    <node pkg="racecar" type="goal_loop-newcar.py" respawn="false" name="multi_goals"  output="screen" ></node>
+</launch>
